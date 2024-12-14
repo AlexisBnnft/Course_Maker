@@ -4,6 +4,8 @@ import axios from 'axios';
 import './App.css';
 import OutlineView from './OutlineView'; // Import the new component
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000/api';
+
 // The App component fetches the graph data and passes it to GraphView
 function App() {
   const [trees, setTrees] = useState([]);
@@ -14,13 +16,13 @@ function App() {
 
 
   const fetchGraph = async () => {
-    const res = await axios.get('http://127.0.0.1:5000/api/get_graph');
+    const res = await axios.get(`${API_BASE_URL}/get_graph`);
     setData(res.data);
   };
 
   useEffect(() => {
     const fetchTrees = async () => {
-      const res = await axios.get('http://127.0.0.1:5000/api/get_all_trees');
+      const res = await axios.get(`${API_BASE_URL}/get_all_trees`);
       setTrees(res.data);
     };
     fetchTrees();
@@ -29,7 +31,7 @@ function App() {
   useEffect(() => {
     if (selectedTreeId) {
       const fetchGraph = async () => {
-        const res = await axios.get(`http://127.0.0.1:5000/api/get_graph?rootId=${selectedTreeId}`);
+        const res = await axios.get(`${API_BASE_URL}/get_graph?rootId=${selectedTreeId}`);
         setData(res.data);
       };
       fetchGraph();
@@ -44,10 +46,10 @@ function App() {
       const text = e.target.result;
       try {
         const jsonData = JSON.parse(text);
-        const res = await axios.post('http://127.0.0.1:5000/api/import_tree', jsonData);
+        const res = await axios.post('${API_BASE_URL}/import_tree', jsonData);
         if (res.data.success) {
           // Refresh the tree list
-          const treesRes = await axios.get('http://127.0.0.1:5000/api/get_all_trees');
+          const treesRes = await axios.get('${API_BASE_URL}/get_all_trees');
           setTrees(treesRes.data);
           setSelectedTreeId(res.data.rootId); // select the newly imported tree
           setStatusMessage("Import successful!");
@@ -68,10 +70,10 @@ function App() {
   const createNewTree = async () => {
     const title = prompt("Enter a title for the new tree:");
     if (!title) return;
-    const res = await axios.post('http://127.0.0.1:5000/api/create_tree', { title });
+    const res = await axios.post('${API_BASE_URL}/create_tree', { title });
     if (res.data.success) {
       // Refresh the list of trees
-      const treesRes = await axios.get('http://127.0.0.1:5000/api/get_all_trees');
+      const treesRes = await axios.get('${API_BASE_URL}/get_all_trees');
       setTrees(treesRes.data);
       setSelectedTreeId(res.data.rootId); // select the newly created tree
     }
@@ -79,7 +81,7 @@ function App() {
 
   const refreshCurrentTree = async () => {
     if (!selectedTreeId) return;
-    const res = await axios.get(`http://127.0.0.1:5000/api/get_graph?rootId=${selectedTreeId}`);
+    const res = await axios.get(`${API_BASE_URL}/get_graph?rootId=${selectedTreeId}`);
     setData(res.data);
   };
 

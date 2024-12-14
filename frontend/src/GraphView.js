@@ -9,6 +9,8 @@ import Latex from 'react-latex-next';
 import 'katex/dist/katex.min.css'; // Import KaTeX CSS
 import './App.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000/api';
+
 function GraphView({ data, onRefresh }) {
   const [selectedNode, setSelectedNode] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
@@ -23,7 +25,7 @@ function GraphView({ data, onRefresh }) {
         const nodeId = nodeData.data.nodeId;
         if (isSelectingNewParent && nodeToReparent) {
         // On est en phase de sélection du nouveau parent
-        axios.put('http://127.0.0.1:5000/api/update_node_parent', {
+        axios.put('${API_BASE_URL}/update_node_parent', {
             nodeId: nodeToReparent.nodeId,
             newParentId: nodeId
         }).then(() => {

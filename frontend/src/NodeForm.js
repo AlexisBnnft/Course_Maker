@@ -3,6 +3,9 @@ import axios from 'axios';
 import { NODE_TYPES } from './config';
 import ContentPreview from './ContentPreview';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000/api';
+
+
 function NodeForm({ parentId, onCancel, onSuccess }) {
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
@@ -13,7 +16,7 @@ function NodeForm({ parentId, onCancel, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("NodeForm handleSubmit triggered with:", { parentId, title, content, other });
-    await axios.post('http://127.0.0.1:5000/api/add_node', {
+    await axios.post(`${API_BASE_URL}/add_node`, {
       parentId,
       type,
       title,

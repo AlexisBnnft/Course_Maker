@@ -4,6 +4,8 @@ import ContentPreview from './ContentPreview';
 import { NODE_TYPES } from './config';
 import './App.css';
 
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'http://127.0.0.1:5000/api';
+  
 function EditNodeModal({ node, onCancel, onSuccess }) {
   const [type, setType] = useState(node.attributes.type);
   const [title, setTitle] = useState(node.name);
@@ -14,7 +16,7 @@ function EditNodeModal({ node, onCancel, onSuccess }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("EditNodeModal props:", { node, onCancel, onSuccess });
-    await axios.put('http://127.0.0.1:5000/api/update_node', {
+    await axios.put(`${API_BASE_URL}/update_node`, {
       nodeId: node.nodeId,
       type,
       title,
