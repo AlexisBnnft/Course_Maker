@@ -2,10 +2,20 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 from pymongo import MongoClient
 from bson import ObjectId
+from dotenv import load_dotenv
+import os
 
-MONGO_URI = "mongodb://127.0.0.1:27017/course"
+
+load_dotenv()  # This will load variables from the .env file if present
+
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/course")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:3000")
+
+print("MONGO_URI:", MONGO_URI)
+print("FRONTEND_URL:", FRONTEND_URL)
+
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
+CORS(app, resources={r"/*": {"origins": FRONTEND_URL}})
 
 client = MongoClient(MONGO_URI)
 db = client['db']
