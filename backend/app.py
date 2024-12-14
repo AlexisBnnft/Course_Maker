@@ -3,7 +3,6 @@ from flask_cors import CORS
 from pymongo import MongoClient
 from bson import ObjectId
 
-#MONGO_URI = "mongodb+srv://bonnaf:P6bDpagknUASd7a1@firstcluster.xzp9a.mongodb.net/db?retryWrites=true&w=majority&appName=FirstCluster"
 MONGO_URI = "mongodb://127.0.0.1:27017/course"
 app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": "http://127.0.0.1:3000"}})
