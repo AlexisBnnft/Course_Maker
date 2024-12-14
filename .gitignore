@@ -1,0 +1,47 @@
+# OS generated files #
+######################
+.DS_Store
+Thumbs.db
+
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
+# Dependency directories #
+##########################
+node_modules/
+vendor/
+venv/
+
+# IDE files #
+#############
+.vscode/
+.idea/
+
+# Compiled source #
+###################
+*.class
+*.dll
+*.exe
+*.o
+*.so
+
+# Python #
+##########
+__pycache__/
+*.py[cod]
+
+# JavaScript #
+##############
+dist/
+build/
+
+# Environment variables #
+#########################
+.env
+
+# macOS #
+#########
+*.DS_Store

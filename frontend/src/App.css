@@ -1,0 +1,35 @@
+body {
+  background: rgb(226, 226, 226);
+}
+
+html {
+  background: rgb(226, 226, 226);
+}
+
+.container{
+  background: rgb(226, 226, 226);
+}
+.head{
+  background: rgb(226, 226, 226);
+}
+.card {
+  font-size: 0.9rem; /* slightly smaller than base */
+  position: left;
+}
+
+.card.mt-3 {
+  margin-top: 1rem; /* Adjust spacing as needed */
+  background-color: #cbcbcb;
+  margin-bottom: 10px;
+  max-width: 400px;
+}
+
+.form-control {
+  font-size: 0.8rem; /* Make the input text even smaller if you like */
+}
+
+.container {
+  font-size: 18px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
