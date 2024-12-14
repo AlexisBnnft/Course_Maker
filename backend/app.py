@@ -245,6 +245,40 @@ def get_graph():
     graph = build_graph(str(root["_id"]))
     return jsonify(graph), 200
 
+@app.route("/api/import_tree", methods=["POST"])
+def import_tree():
+    tree_data = request.get_json()
+    if not tree_data:
+        return jsonify({"error": "No tree data provided"}), 400
+    
+    # tree_data structure is same as the one returned by build_graph:
+    # {
+    #   "name": "Root Node",
+    #   "nodeId": "...",
+    #   "attributes": { "type": "...", "content": "...", "other": "..." },
+    #   "children": [...]
+    # }
+    
+    # Insert nodes recursively
+    def insert_node(node, parent_id=None):
+        # Insert this node in db
+        new_id = nodes_collection.insert_one({
+            "parentId": ObjectId(parent_id) if parent_id else None,
+            "type": node["attributes"]["type"],
+            "title": node["name"],
+            "content": node["attributes"]["content"],
+            "other": node["attributes"]["other"]
+        }).inserted_id
+        
+        # Insert children
+        for child in node.get("children", []):
+            insert_node(child, new_id)
+        
+        return new_id
+
+    new_root_id = insert_node(tree_data, None)
+    return jsonify({"success": True, "rootId": str(new_root_id)}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)
