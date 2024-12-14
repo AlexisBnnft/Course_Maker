@@ -79,15 +79,6 @@ def build_graph(root_id):
     }
     return node_data
 
-@app.route("/api/get_graph", methods=["GET"])
-def get_graph():
-    # Fetch the root node again, just in case
-    root = nodes_collection.find_one({"parentId": None})
-    if not root:
-        return jsonify({"error": "No root node found"}), 404
-    graph = build_graph(str(root["_id"]))
-    return jsonify(graph), 200
-
 @app.route("/api/add_node", methods=["POST"])
 def add_node():
     data = request.get_json()
@@ -155,6 +146,104 @@ def delete_node():
     
     delete_subtree(node_id)
     return jsonify({"success": True}), 200
+
+@app.route("/api/update_node_parent", methods=["PUT"])
+def update_node_parent():
+    data = request.get_json()
+    node_id = data.get("nodeId")
+    new_parent_id = data.get("newParentId")
+
+    if not node_id or not new_parent_id:
+        return jsonify({"error": "nodeId and newParentId are required"}), 400
+
+    # Vérifier que le nouveau parent existe
+    new_parent = nodes_collection.find_one({"_id": ObjectId(new_parent_id)})
+    if not new_parent:
+        return jsonify({"error": "New parent not found"}), 404
+
+    # Mettre à jour le parent
+    res = nodes_collection.update_one(
+        {"_id": ObjectId(node_id)},
+        {"$set": {"parentId": ObjectId(new_parent_id)}}
+    )
+    if res.matched_count == 0:
+        return jsonify({"error": "Node not found"}), 404
+
+    return jsonify({"success": True}), 200
+
+def generate_outline_html(node):
+    # node: dict with keys: name, attributes, children
+    # Start with a list item for this node
+    html = f"<li><strong>{node['name']}</strong>"
+    # If you want to show some attributes inline, you can:
+    # html += f" - {node['attributes'].get('content', '')}"
+    
+    # If there are children, recursively render them
+    if node.get('children'):
+        # Sort children if needed
+        # children = sorted(node['children'], key=lambda c: c['attributes'].get('order', 0))
+        children = node['children']
+        html += "<ul>"
+        for child in children:
+            html += generate_outline_html(child)
+        html += "</ul>"
+    
+    html += "</li>"
+    return html
+
+@app.route("/api/get_outline", methods=["GET"])
+def get_outline():
+    root_id = request.args.get("rootId", None)
+    if not root_id:
+        return "rootId is required", 400
+
+    root = nodes_collection.find_one({"_id": ObjectId(root_id), "parentId": None})
+    if not root:
+        return "No root node found", 404
+    graph = build_graph(str(root["_id"]))
+    outline_html = "<ul>" + generate_outline_html(graph) + "</ul>"
+    return outline_html, 200, {'Content-Type': 'text/html'}
+
+@app.route("/api/get_all_trees", methods=["GET"])
+def get_all_trees():
+    # Tous les noeuds avec parentId: None sont des racines (donc des arbres)
+    roots = nodes_collection.find({"parentId": None})
+    tree_list = []
+    for root in roots:
+        tree_list.append({
+            "rootId": str(root["_id"]),
+            "title": root["title"]
+        })
+    return jsonify(tree_list), 200
+
+@app.route("/api/create_tree", methods=["POST"])
+def create_tree():
+    data = request.get_json()
+    title = data.get("title")
+    if not title:
+        return jsonify({"error": "title is required"}), 400
+    # Créer un nœud racine
+    new_root_id = nodes_collection.insert_one({
+        "parentId": None,
+        "type": "root",
+        "title": title,
+        "content": "Root content",
+        "other": ""
+    }).inserted_id
+    return jsonify({"success": True, "rootId": str(new_root_id)}), 200
+
+@app.route("/api/get_graph", methods=["GET"])
+def get_graph():
+    root_id = request.args.get("rootId", None)
+    if not root_id:
+        return jsonify({"error": "rootId is required"}), 400
+    
+    root = nodes_collection.find_one({"_id": ObjectId(root_id), "parentId": None})
+    if not root:
+        return jsonify({"error": "No root node found with given rootId"}), 404
+    
+    graph = build_graph(str(root["_id"]))
+    return jsonify(graph), 200
 
 
 if __name__ == "__main__":
