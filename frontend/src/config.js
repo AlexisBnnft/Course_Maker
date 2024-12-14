@@ -15,9 +15,34 @@ export const NODE_TYPES = [
     "Application Exercise",
     "Study Technique (Solved Example)",
     "Cover Page",
-    "Unité",
-    "Sous-Unité",
+    "Unit",
+    "SubUnit",
+    "Chapter",
   ];
+
+  export const NODE_TYPES_COLORS = {
+    "Definition": "#8F2828",
+    "Theoreme": "#2196F3",
+    "Lemma": "#FFC107",
+    "Short Synthesis Overview": "#FF5722",
+    "Detailed Synthesis Overview": "#795548",
+    "Illustration Section": "#9C27B0",
+    "Schema": "#00BCD4",
+    "Representation Section": "#FF9800",
+    "Outside the Curriculum": "#607D8B",
+    "Note/Remark": "#9E9E9E",
+    "Concept Study Technique": "#795548",
+    "Numerical Example": "#FF5722",
+    "Narrator’s Voice": "#9C27B0",
+    "Application Exercise": "#FFC107",
+    "Study Technique (Solved Example)": "#4CAF50",
+    "Cover Page": "#2196F3",
+    "Unit": "#FFC107",
+    "SubUnit": "#FF5722",
+    "Chapter": "#4CAF50",
+  };
+  
+  export const DISPLAYED_NODE_FIELDS = ["title"]; // Ou vide si juste le nom
 
   
   

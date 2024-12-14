@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { NODE_TYPES } from './config';
-
+import ContentPreview from './ContentPreview';
 
 function NodeForm({ parentId, onCancel, onSuccess }) {
   const [type, setType] = useState('');
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [other, setOther] = useState('');
-
+  const [showPreview, setShowPreview] = useState(true);
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("NodeForm handleSubmit triggered with:", { parentId, title, content, other });
@@ -60,13 +61,6 @@ function NodeForm({ parentId, onCancel, onSuccess }) {
               onChange={e => setContent(e.target.value)}
             />
           </div>
-          <button
-            type="button"
-            className="btn btn-info me-2"
-            onClick={() => setShowPreview(!showPreview)}
-          >
-            {showPreview ? 'Hide Preview' : 'Show Preview'}
-          </button>
           <div className="mb-3">
             <label htmlFor="node-other">Other</label>
             <input
@@ -76,9 +70,19 @@ function NodeForm({ parentId, onCancel, onSuccess }) {
               onChange={e => setOther(e.target.value)}
             />
           </div>
-          <button type="submit" className="btn btn-success me-2">Add Node</button>
-          <button type="button" className="btn btn-secondary" onClick={onCancel}>Cancel</button>
+          <button type="submit" className="btn-primary adding me-2">Add Node</button>
+          <button type="button" className="btn-primary delete" onClick={onCancel}>Cancel</button>
         </form>
+        <button
+          type="button"
+          className="btn-primary changeparent mt-3"
+          onClick={() => setShowPreview(!showPreview)}
+        >
+          {showPreview ? 'Hide Preview' : 'Show Preview'}
+        </button>
+
+        {/* Conditionally render the ContentPreview component */}
+        {showPreview && <ContentPreview content={content} />}
       </div>
     </div>
   );

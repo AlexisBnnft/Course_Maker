@@ -1,22 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tree from 'react-d3-tree';
 import axios from 'axios';
 import NodeForm from './NodeForm';
 import EditNodeModal from './EditNodeModal';
+import { NODE_TYPES_COLORS } from './config';
+import { DISPLAYED_NODE_FIELDS } from './config';
+import Latex from 'react-latex-next';
+import 'katex/dist/katex.min.css'; // Import KaTeX CSS
+import './App.css';
 
 function GraphView({ data, onRefresh }) {
   const [selectedNode, setSelectedNode] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [parentNodeId, setParentNodeId] = useState(null);
-
+  const [isSelectingNewParent, setIsSelectingNewParent] = useState(false);
+  const [nodeToReparent, setNodeToReparent] = useState(null);
   const [editNode, setEditNode] = useState(null);
+  const [reselectNodeId, setReselectNodeId] = useState(null);
 
-  const handleNodeClick = (nodeData) => {
-    const nodeId = nodeData.data.nodeId;
-    // Show options: Edit or Add child or Delete (if not root)
-    setSelectedNode(nodeData.data);
-  };
-
+    // Quand on clique sur un nœud
+    const handleNodeClick = (nodeData) => {
+        const nodeId = nodeData.data.nodeId;
+        if (isSelectingNewParent && nodeToReparent) {
+        // On est en phase de sélection du nouveau parent
+        axios.put('http://127.0.0.1:5000/api/update_node_parent', {
+            nodeId: nodeToReparent.nodeId,
+            newParentId: nodeId
+        }).then(() => {
+            setIsSelectingNewParent(false);
+            setNodeToReparent(null);
+            onRefresh();
+        });
+        } else {
+        // Sinon, sélection normale de nœud
+        setSelectedNode(nodeData.data);
+        if (!nodeToReparent) setNodeToReparent(nodeData.data); // Le nœud qu'on veut reparent
+        }
+    };
   const handleAddChild = () => {
     console.log("Add Child button clicked");    
     if (!selectedNode) return;   
@@ -34,6 +54,62 @@ function GraphView({ data, onRefresh }) {
     }
   };
 
+  const renderCustomNode = ({ nodeDatum }) => {
+    const displayedFields = DISPLAYED_NODE_FIELDS
+      .map(field => nodeDatum.attributes && nodeDatum.attributes[field] ? nodeDatum.attributes[field] : null)
+      .filter(Boolean);
+  
+
+    const fillColor = NODE_TYPES_COLORS[nodeDatum.attributes.type];
+
+    // Check if this node is the selected one
+    const isSelected = selectedNode && selectedNode.nodeId === nodeDatum.nodeId;
+    
+    // Apply a different style if selected
+    const circleStyle = isSelected 
+      ? { fill: fillColor, stroke: 'black', strokeWidth: 8 } 
+      : { fill: fillColor, stroke: 'black', strokeWidth: 1 };
+    
+
+    // Add an onClick handler here:
+    return (
+      <g onClick={() => handleNodeClick({ data: nodeDatum })}>
+        <circle r={15} {...circleStyle}></circle>
+        <text fill="black" strokeWidth="1" x="-20" dy="2em">
+          {nodeDatum.name}
+        </text>
+        {displayedFields.map((fieldValue, i) => (
+          <text key={i} fill="black" x="20" dy={`${-1.35 + i*1.2}em`}>
+            {fieldValue}
+          </text>
+        ))}
+      </g>
+    );
+  };
+  
+    
+    useEffect(() => {
+        // If we have a node to reselect and fresh data, find it and update selectedNode
+        if (reselectNodeId && data) {
+        const updatedNode = findNodeById(data, reselectNodeId);
+        if (updatedNode) {
+            setSelectedNode(updatedNode.data);
+        }
+        setReselectNodeId(null);
+        }
+    }, [data, reselectNodeId]);
+
+    function findNodeById(node, nodeIdToFind) {
+        if (node.nodeId === nodeIdToFind) return node;
+        if (node.children) {
+        for (const child of node.children) {
+            const found = findNodeById(child, nodeIdToFind);
+            if (found) return found;
+        }
+        }
+        return null;
+    }
+
   const handleEditNode = () => {
     if (!selectedNode) return;
     setEditNode(selectedNode);
@@ -47,7 +123,8 @@ function GraphView({ data, onRefresh }) {
           orientation="horizontal"
           translate={{ x: 100, y: 200 }}
           onNodeClick={handleNodeClick}
-        />
+          renderCustomNodeElement={(rd3tProps) => renderCustomNode(rd3tProps)}
+          />
       </div>
       {showAddForm && (
         console.log("Rendering NodeForm"),
@@ -60,31 +137,33 @@ function GraphView({ data, onRefresh }) {
           }}
         />
         )}
-
-      {editNode && (
-        <EditNodeModal 
-          node={editNode}
-          onCancel={() => setEditNode(null)}
-          onSuccess={() => { 
+              
+        {editNode && (
+        <EditNodeModal
+            node={editNode}
+            onCancel={() => setEditNode(null)}
+            onSuccess={(editedNodeId) => {
             setEditNode(null); 
+            setReselectNodeId(editedNodeId); // set the node ID to reselect
             onRefresh(); 
-          }}
+            }}
         />
-      )}
+        )}
+
       {selectedNode && (
         <div className="col-12 mb-3">
-          <h3>Selected Node: {selectedNode.name}</h3>
-          <p>Type: {selectedNode.attributes.type}</p>
-          <p>Content: {selectedNode.attributes.content}</p>
-          <p>Other: {selectedNode.attributes.other}</p>
-          <button className="btn btn-primary me-2" onClick={handleAddChild}>Add Child</button>
-          {selectedNode.attributes.type !== 'root' && 
-            <button className="btn btn-danger me-2" onClick={handleDeleteNode}>Delete Node</button>
-          }
-          <button className="btn btn-secondary" onClick={handleEditNode}>Edit Node</button>
+            <h3>Selected Node: {selectedNode.name}</h3>
+            <p>Type: {selectedNode.attributes.type}</p>
+            <p>Content: <Latex>{selectedNode.attributes.content}</Latex></p>
+            <p>Other: {selectedNode.attributes.other}</p>
+            <button className="btn-primary adding me-2" onClick={handleAddChild}>Add Child</button>
+            {selectedNode.attributes.type !== 'root' && 
+            <button className="btn-primary delete me-2" onClick={handleDeleteNode}>Delete Node</button>
+            }
+            <button className="btn-primary edit me-2" onClick={handleEditNode}>Edit Node</button>
+            <button className="btn-primary changeparent" onClick={() => setIsSelectingNewParent(true)}>Change Parent</button>
         </div>
-      )}
-        
+        )}
 
     </div>
   );
