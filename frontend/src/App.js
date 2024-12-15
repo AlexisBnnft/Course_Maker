@@ -46,10 +46,10 @@ function App() {
       const text = e.target.result;
       try {
         const jsonData = JSON.parse(text);
-        const res = await axios.post('${API_BASE_URL}/import_tree', jsonData);
+        const res = await axios.post(`${API_BASE_URL}/import_tree`, jsonData);
         if (res.data.success) {
           // Refresh the tree list
-          const treesRes = await axios.get('${API_BASE_URL}/get_all_trees');
+          const treesRes = await axios.get(`${API_BASE_URL}/get_all_trees`);
           setTrees(treesRes.data);
           setSelectedTreeId(res.data.rootId); // select the newly imported tree
           setStatusMessage("Import successful!");
@@ -70,10 +70,10 @@ function App() {
   const createNewTree = async () => {
     const title = prompt("Enter a title for the new tree:");
     if (!title) return;
-    const res = await axios.post('${API_BASE_URL}/create_tree', { title });
+    const res = await axios.post(`${API_BASE_URL}/create_tree`, { title });
     if (res.data.success) {
       // Refresh the list of trees
-      const treesRes = await axios.get('${API_BASE_URL}/get_all_trees');
+      const treesRes = await axios.get(`${API_BASE_URL}/get_all_trees`);
       setTrees(treesRes.data);
       setSelectedTreeId(res.data.rootId); // select the newly created tree
     }

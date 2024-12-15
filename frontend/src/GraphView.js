@@ -25,7 +25,7 @@ function GraphView({ data, onRefresh }) {
         const nodeId = nodeData.data.nodeId;
         if (isSelectingNewParent && nodeToReparent) {
         // On est en phase de sélection du nouveau parent
-        axios.put('${API_BASE_URL}/update_node_parent', {
+        axios.put(`${API_BASE_URL}/update_node_parent`, {
             nodeId: nodeToReparent.nodeId,
             newParentId: nodeId
         }).then(() => {
