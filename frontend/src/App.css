@@ -151,6 +151,7 @@ html {
   border: #a0a0a0;
   color: rgb(255, 255, 255);
   border-radius: 10%;
+  margin-right: 20px;
 }
 
 .btn-primary.export:hover {

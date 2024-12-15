@@ -19,28 +19,31 @@ export const NODE_TYPES = [
     "SubUnit",
     "Chapter",
   ];
-
+  
   export const NODE_TYPES_COLORS = {
-    "Definition": "#8F2828",
-    "Theoreme": "#2196F3",
-    "Lemma": "#FFC107",
-    "Short Synthesis Overview": "#FF5722",
-    "Detailed Synthesis Overview": "#795548",
-    "Illustration Section": "#9C27B0",
-    "Schema": "#00BCD4",
-    "Representation Section": "#FF9800",
-    "Outside the Curriculum": "#607D8B",
-    "Note/Remark": "#9E9E9E",
-    "Concept Study Technique": "#795548",
-    "Numerical Example": "#FF5722",
-    "Narrator’s Voice": "#9C27B0",
-    "Application Exercise": "#FFC107",
-    "Study Technique (Solved Example)": "#4CAF50",
-    "Cover Page": "#2196F3",
-    "Unit": "#FFC107",
-    "SubUnit": "#FF5722",
     "Chapter": "#4CAF50",
+    "Unit": "#2E7D32",
+    "SubUnit": "#81C784",
+  
+    "Definition": "#1E88E5",
+    "Theoreme": "#512DA8",
+    "Lemma": "#9575CD",
+    "Short Synthesis Overview": "#FFA726",
+    "Detailed Synthesis Overview": "#8D6E63",
+    "Illustration Section": "#E91E63",
+    "Schema": "#00ACC1",
+    "Representation Section": "#CDDC39",
+    "Outside the Curriculum": "#757575",
+    "Note/Remark": "#9E9E9E",
+    "Concept Study Technique": "#388E3C",
+    "Numerical Example": "#F57C00",
+    "Narrator’s Voice": "#26C6DA",
+    "Application Exercise": "#F9A825",
+    "Study Technique (Solved Example)": "#4CAF50",
+  
+    "Cover Page": "#2196F3"
   };
+  
   
   export const DISPLAYED_NODE_FIELDS = ["title"]; // Ou vide si juste le nom
 

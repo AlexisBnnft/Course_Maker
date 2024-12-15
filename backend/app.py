@@ -288,6 +288,27 @@ def import_tree():
     new_root_id = insert_node(tree_data, None)
     return jsonify({"success": True, "rootId": str(new_root_id)}), 200
 
+@app.route("/api/delete_tree", methods=["DELETE"])
+def delete_tree():
+    root_id = request.args.get("rootId")
+    if not root_id:
+        return jsonify({"error": "rootId is required"}), 400
+
+    root_node = nodes_collection.find_one({"_id": ObjectId(root_id), "parentId": None})
+    if not root_node:
+        return jsonify({"error": "Root node not found"}), 404
+
+    # Recursively delete the tree
+    def delete_subtree(node_id):
+        children = nodes_collection.find({"parentId": ObjectId(node_id)})
+        for child in children:
+            delete_subtree(str(child["_id"]))
+        nodes_collection.delete_one({"_id": ObjectId(node_id)})
+
+    delete_subtree(root_id)
+
+    return jsonify({"success": True}), 200
+
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -121,26 +121,33 @@ function App() {
           a.click();
           URL.revokeObjectURL(url);
         }}>Export Current Tree</button>
-
+        <button
+          className="btn-primary delete"
+          onClick={async () => {
+            if (!selectedTreeId) return;
+            const confirmDelete = window.confirm("Are you sure you want to delete this tree?");
+            if (confirmDelete) {
+              try {
+                await axios.delete(`${API_BASE_URL}/delete_tree?rootId=${selectedTreeId}`);
+                // Refresh the tree list
+                const treesRes = await axios.get(`${API_BASE_URL}/get_all_trees`);
+                setTrees(treesRes.data);
+                setSelectedTreeId(""); // Clear the selected tree
+                setData(null); // Clear the graph data
+                alert("Tree deleted successfully!");
+              } catch (err) {
+                alert("Failed to delete the tree.");
+              }
+            }
+          }}
+        >
+          Delete Tree
+        </button>
     </div>
       <h2 style={{fontSize: 20,textAlign: "center"}}>This tool allows you to add, edit, and remove nodes from our course knowledge graph.</h2>
       <h2 style={{fontSize: 20,textAlign: "center"}}>To get started, simply click on a node:</h2>
       {selectedTreeId && data && <GraphView data={data} onRefresh={refreshCurrentTree} />}
       {selectedTreeId && data && <OutlineView rootId={selectedTreeId}/>}
-
-      <button onClick={() => {
-        const jsonString = JSON.stringify(data, null, 2);
-        const blob = new Blob([jsonString], { type: "application/json" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = "exported_tree.json";
-        a.click();
-        URL.revokeObjectURL(url);
-      }}>
-        Export Tree
-      </button>
-
     </div>
     
   );
