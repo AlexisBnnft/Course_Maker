@@ -2,6 +2,9 @@
 
 The Course Knowledge Graph Editor is a web application that enables users to create, edit, and visualize hierarchical course structures in the form of a knowledge graph. This tool is designed to assist educators and content creators in organizing complex course content into a manageable and interactive format.
 
+<img width="1499" alt="Capture d’écran 2024-12-15 à 10 07 51" src="https://github.com/user-attachments/assets/ebd29013-9fce-4021-bbbf-308da0e4f84d" />
+
+
 ---
 
 ## Features
