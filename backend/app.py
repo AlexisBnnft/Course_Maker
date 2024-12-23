@@ -8,7 +8,7 @@ import os
 
 load_dotenv()  # This will load variables from the .env file if present
 
-MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/course")
+MONGO_URI = os.getenv("MONGO_URI", "mongodb://127.0.0.1:27017/db")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://127.0.0.1:3000")
 
 print("MONGO_URI:", MONGO_URI)
@@ -45,15 +45,28 @@ if not root_node:
 
 
 def serialize_node(node):
-    return {
-        "_id": str(node["_id"]),
-        "parentId": str(node["parentId"]) if node["parentId"] else None,
-        "type": node["type"],
-        "title": node["title"],
-        "content": node["content"],
-        "other": node["other"]
-    }
-
+    try:
+        return {
+            "_id": str(node["_id"]),
+            "parentId": str(node["parentId"]) if node["parentId"] else None,
+            "type": node["type"],
+            "title": node["title"],
+            "content": node["content"],
+            "other": node["other"]
+        }
+    except Exception as e:
+        return {
+            "_id": str(node["_id"]),
+            "parentId": str(node["parentId"]) if node["parentId"] else None,
+            "type": node["type"],
+            "title": node["title"],
+            "url": node["url"],
+            "caption": node["caption"],
+            "content": node.get("content", ""),
+            "width": node["width"],
+            "alt": node["alt"]
+        }
+    
 def build_graph(root_id):
     # Recursively build a tree of nodes starting from the given root_id.
     root_node = nodes_collection.find_one({"_id": ObjectId(root_id)})
@@ -76,16 +89,31 @@ def build_graph(root_id):
         children.append(build_graph(str(child["_id"])))
     
     # Format the node data for the frontend visualization
-    node_data = {
-        "name": node_serialized["title"],
-        "nodeId": node_serialized["_id"],
-        "attributes": {
-            "type": node_serialized["type"],
-            "content": node_serialized["content"],
-            "other": node_serialized["other"]
-        },
-        "children": children if children else []
-    }
+    try:
+        node_data = {
+            "name": node_serialized["title"],
+            "nodeId": node_serialized["_id"],
+            "attributes": {
+                "type": node_serialized["type"],
+                "content": node_serialized["content"],
+                "other": node_serialized["other"]
+            },
+            "children": children if children else []
+        }
+    except Exception as e:
+        node_data = {
+            "name": node_serialized["title"],
+            "nodeId": node_serialized["_id"],
+            "attributes": {
+                "type": node_serialized["type"],
+                "url": node_serialized["url"],
+                "content": node_serialized["url"],
+                "caption": node_serialized["caption"],
+                "width": node_serialized["width"],
+                "alt": node_serialized["alt"]
+            },
+            "children": children if children else []
+        }
     return node_data
 
 @app.route("/api/add_node", methods=["POST"])
@@ -119,9 +147,18 @@ def update_node():
         return jsonify({"error": "nodeId is required"}), 400
     
     updates = {}
-    for field in ["type", "title", "content", "other"]:
-        if field in data:
-            updates[field] = data[field]
+    if data["type"] == "Figure":
+        for field in ["type", "title", "content", "other"]:
+            if field in data:
+                if field == "content":
+                    updates["url"] = data[field]
+                    updates["content"] = data[field]
+                else:
+                    updates[field] = data[field]
+    else:
+        for field in ["type", "title", "content", "other"]:
+            if field in data:
+                updates[field] = data[field]
 
     if not updates:
         return jsonify({"error": "No update fields provided"}), 400
@@ -271,13 +308,25 @@ def import_tree():
     # Insert nodes recursively
     def insert_node(node, parent_id=None):
         # Insert this node in db
-        new_id = nodes_collection.insert_one({
-            "parentId": ObjectId(parent_id) if parent_id else None,
-            "type": node["attributes"]["type"],
-            "title": node["name"],
-            "content": node["attributes"]["content"],
-            "other": node["attributes"]["other"]
-        }).inserted_id
+        try:
+            new_id = nodes_collection.insert_one({
+                "parentId": ObjectId(parent_id) if parent_id else None,
+                "type": node["attributes"]["type"],
+                "title": node["name"],
+                "content": node["attributes"]["content"],
+                "other": node["attributes"]["other"]
+            }).inserted_id
+        except Exception as e:
+            new_id = nodes_collection.insert_one({
+                "parentId": ObjectId(parent_id) if parent_id else None,
+                "type": node["attributes"]["type"],
+                "title": node["name"],
+                "url": node["attributes"]["url"],
+                "content": node["attributes"]["url"],
+                "caption": node["attributes"]["caption"],
+                "width": node["attributes"]["width"],
+                "alt": node["attributes"]["alt"],
+            }).inserted_id
         
         # Insert children
         for child in node.get("children", []):

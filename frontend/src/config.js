@@ -18,6 +18,8 @@ export const NODE_TYPES = [
     "Unit",
     "SubUnit",
     "Chapter",
+    "Figure",
+    "PageBreak"
   ];
   
   export const NODE_TYPES_COLORS = {
@@ -40,7 +42,8 @@ export const NODE_TYPES = [
     "Narrator’s Voice": "#26C6DA",
     "Application Exercise": "#F9A825",
     "Study Technique (Solved Example)": "#4CAF50",
-  
+    "Figure": "#4CAF20",
+    "PageBreak": "#4CAF30",
     "Cover Page": "#2196F3"
   };
   
