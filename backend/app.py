@@ -18,8 +18,8 @@ app = Flask(__name__)
 CORS(app, resources={r"/*": {"origins": FRONTEND_URL}})
 
 client = MongoClient(MONGO_URI)
-db = client['db']
-nodes_collection = db['nodes']
+db = client["db"]
+nodes_collection = db["nodes"]
 
 # Each node structure:
 # {
@@ -35,13 +35,15 @@ nodes_collection = db['nodes']
 root_node = nodes_collection.find_one({"parentId": None})
 if not root_node:
     # Creates one if not found
-    root_id = nodes_collection.insert_one({
-        "parentId": None,
-        "type": "root",
-        "title": "Root Node",
-        "content": "This is the root of the knowledge graph",
-        "other": ""
-    }).inserted_id
+    root_id = nodes_collection.insert_one(
+        {
+            "parentId": None,
+            "type": "root",
+            "title": "Root Node",
+            "content": "This is the root of the knowledge graph",
+            "other": "",
+        }
+    ).inserted_id
 
 
 def serialize_node(node):
@@ -52,7 +54,7 @@ def serialize_node(node):
             "type": node["type"],
             "title": node["title"],
             "content": node["content"],
-            "other": node["other"]
+            "other": node["other"],
         }
     except Exception as e:
         return {
@@ -64,15 +66,16 @@ def serialize_node(node):
             "caption": node["caption"],
             "content": node.get("content", ""),
             "width": node["width"],
-            "alt": node["alt"]
+            "alt": node["alt"],
         }
-    
+
+
 def build_graph(root_id):
     # Recursively build a tree of nodes starting from the given root_id.
     root_node = nodes_collection.find_one({"_id": ObjectId(root_id)})
     if not root_node:
         return None
-    
+
     # For graph visualization libraries like react-d3-tree, a node structure is often:
     # {
     #   name: "title",
@@ -80,14 +83,14 @@ def build_graph(root_id):
     #   children: [...]
     # }
     # We can store our node fields as attributes and the title as `name`.
-    
+
     node_serialized = serialize_node(root_node)
-    
+
     children_cursor = nodes_collection.find({"parentId": ObjectId(root_id)})
     children = []
     for child in children_cursor:
         children.append(build_graph(str(child["_id"])))
-    
+
     # Format the node data for the frontend visualization
     try:
         node_data = {
@@ -96,9 +99,9 @@ def build_graph(root_id):
             "attributes": {
                 "type": node_serialized["type"],
                 "content": node_serialized["content"],
-                "other": node_serialized["other"]
+                "other": node_serialized["other"],
             },
-            "children": children if children else []
+            "children": children if children else [],
         }
     except Exception as e:
         node_data = {
@@ -110,11 +113,12 @@ def build_graph(root_id):
                 "content": node_serialized["url"],
                 "caption": node_serialized["caption"],
                 "width": node_serialized["width"],
-                "alt": node_serialized["alt"]
+                "alt": node_serialized["alt"],
             },
-            "children": children if children else []
+            "children": children if children else [],
         }
     return node_data
+
 
 @app.route("/api/add_node", methods=["POST"])
 def add_node():
@@ -129,15 +133,18 @@ def add_node():
         return jsonify({"error": "parentId and title are required"}), 400
 
     # Insert the new node
-    new_node_id = nodes_collection.insert_one({
-        "parentId": ObjectId(parentId),
-        "type": node_type,
-        "title": title,
-        "content": content,
-        "other": other
-    }).inserted_id
+    new_node_id = nodes_collection.insert_one(
+        {
+            "parentId": ObjectId(parentId),
+            "type": node_type,
+            "title": title,
+            "content": content,
+            "other": other,
+        }
+    ).inserted_id
 
     return jsonify({"success": True, "nodeId": str(new_node_id)}), 200
+
 
 @app.route("/api/update_node", methods=["PUT"])
 def update_node():
@@ -145,7 +152,7 @@ def update_node():
     node_id = data.get("nodeId")
     if not node_id:
         return jsonify({"error": "nodeId is required"}), 400
-    
+
     updates = {}
     if data["type"] == "Figure":
         for field in ["type", "title", "content", "other"]:
@@ -166,8 +173,9 @@ def update_node():
     res = nodes_collection.update_one({"_id": ObjectId(node_id)}, {"$set": updates})
     if res.matched_count == 0:
         return jsonify({"error": "No node found"}), 404
-    
+
     return jsonify({"success": True}), 200
+
 
 @app.route("/api/delete_node", methods=["DELETE"])
 def delete_node():
@@ -189,9 +197,10 @@ def delete_node():
         for child in children:
             delete_subtree(str(child["_id"]))
         nodes_collection.delete_one({"_id": ObjectId(n_id)})
-    
+
     delete_subtree(node_id)
     return jsonify({"success": True}), 200
+
 
 @app.route("/api/update_node_parent", methods=["PUT"])
 def update_node_parent():
@@ -209,13 +218,13 @@ def update_node_parent():
 
     # Mettre à jour le parent
     res = nodes_collection.update_one(
-        {"_id": ObjectId(node_id)},
-        {"$set": {"parentId": ObjectId(new_parent_id)}}
+        {"_id": ObjectId(node_id)}, {"$set": {"parentId": ObjectId(new_parent_id)}}
     )
     if res.matched_count == 0:
         return jsonify({"error": "Node not found"}), 404
 
     return jsonify({"success": True}), 200
+
 
 def generate_outline_html(node):
     # node: dict with keys: name, attributes, children
@@ -223,19 +232,20 @@ def generate_outline_html(node):
     html = f"<li><strong>{node['name']}</strong>"
     # If you want to show some attributes inline, you can:
     # html += f" - {node['attributes'].get('content', '')}"
-    
+
     # If there are children, recursively render them
-    if node.get('children'):
+    if node.get("children"):
         # Sort children if needed
         # children = sorted(node['children'], key=lambda c: c['attributes'].get('order', 0))
-        children = node['children']
+        children = node["children"]
         html += "<ul>"
         for child in children:
             html += generate_outline_html(child)
         html += "</ul>"
-    
+
     html += "</li>"
     return html
+
 
 @app.route("/api/get_outline", methods=["GET"])
 def get_outline():
@@ -248,7 +258,8 @@ def get_outline():
         return "No root node found", 404
     graph = build_graph(str(root["_id"]))
     outline_html = "<ul>" + generate_outline_html(graph) + "</ul>"
-    return outline_html, 200, {'Content-Type': 'text/html'}
+    return outline_html, 200, {"Content-Type": "text/html"}
+
 
 @app.route("/api/get_all_trees", methods=["GET"])
 def get_all_trees():
@@ -256,11 +267,9 @@ def get_all_trees():
     roots = nodes_collection.find({"parentId": None})
     tree_list = []
     for root in roots:
-        tree_list.append({
-            "rootId": str(root["_id"]),
-            "title": root["title"]
-        })
+        tree_list.append({"rootId": str(root["_id"]), "title": root["title"]})
     return jsonify(tree_list), 200
+
 
 @app.route("/api/create_tree", methods=["POST"])
 def create_tree():
@@ -269,34 +278,38 @@ def create_tree():
     if not title:
         return jsonify({"error": "title is required"}), 400
     # Créer un nœud racine
-    new_root_id = nodes_collection.insert_one({
-        "parentId": None,
-        "type": "root",
-        "title": title,
-        "content": "Root content",
-        "other": ""
-    }).inserted_id
+    new_root_id = nodes_collection.insert_one(
+        {
+            "parentId": None,
+            "type": "root",
+            "title": title,
+            "content": "Root content",
+            "other": "",
+        }
+    ).inserted_id
     return jsonify({"success": True, "rootId": str(new_root_id)}), 200
+
 
 @app.route("/api/get_graph", methods=["GET"])
 def get_graph():
     root_id = request.args.get("rootId", None)
     if not root_id:
         return jsonify({"error": "rootId is required"}), 400
-    
+
     root = nodes_collection.find_one({"_id": ObjectId(root_id), "parentId": None})
     if not root:
         return jsonify({"error": "No root node found with given rootId"}), 404
-    
+
     graph = build_graph(str(root["_id"]))
     return jsonify(graph), 200
+
 
 @app.route("/api/import_tree", methods=["POST"])
 def import_tree():
     tree_data = request.get_json()
     if not tree_data:
         return jsonify({"error": "No tree data provided"}), 400
-    
+
     # tree_data structure is same as the one returned by build_graph:
     # {
     #   "name": "Root Node",
@@ -304,38 +317,43 @@ def import_tree():
     #   "attributes": { "type": "...", "content": "...", "other": "..." },
     #   "children": [...]
     # }
-    
+
     # Insert nodes recursively
     def insert_node(node, parent_id=None):
         # Insert this node in db
         try:
-            new_id = nodes_collection.insert_one({
-                "parentId": ObjectId(parent_id) if parent_id else None,
-                "type": node["attributes"]["type"],
-                "title": node["name"],
-                "content": node["attributes"]["content"],
-                "other": node["attributes"]["other"]
-            }).inserted_id
+            new_id = nodes_collection.insert_one(
+                {
+                    "parentId": ObjectId(parent_id) if parent_id else None,
+                    "type": node["attributes"]["type"],
+                    "title": node["name"],
+                    "content": node["attributes"]["content"],
+                    "other": node["attributes"]["other"],
+                }
+            ).inserted_id
         except Exception as e:
-            new_id = nodes_collection.insert_one({
-                "parentId": ObjectId(parent_id) if parent_id else None,
-                "type": node["attributes"]["type"],
-                "title": node["name"],
-                "url": node["attributes"]["url"],
-                "content": node["attributes"]["url"],
-                "caption": node["attributes"]["caption"],
-                "width": node["attributes"]["width"],
-                "alt": node["attributes"]["alt"],
-            }).inserted_id
-        
+            new_id = nodes_collection.insert_one(
+                {
+                    "parentId": ObjectId(parent_id) if parent_id else None,
+                    "type": node["attributes"]["type"],
+                    "title": node["name"],
+                    "url": node["attributes"]["url"],
+                    "content": node["attributes"]["url"],
+                    "caption": node["attributes"]["caption"],
+                    "width": node["attributes"]["width"],
+                    "alt": node["attributes"]["alt"],
+                }
+            ).inserted_id
+
         # Insert children
         for child in node.get("children", []):
             insert_node(child, new_id)
-        
+
         return new_id
 
     new_root_id = insert_node(tree_data, None)
     return jsonify({"success": True, "rootId": str(new_root_id)}), 200
+
 
 @app.route("/api/delete_tree", methods=["DELETE"])
 def delete_tree():
