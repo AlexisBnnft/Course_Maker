@@ -1,0 +1,547 @@
+{
+  "attributes": {
+    "content": "",
+    "other": "",
+    "type": "Chapter"
+  },
+  "children": [
+    {
+      "attributes": {
+        "content": "",
+        "other": "",
+        "type": "Unit"
+      },
+      "children": [
+        {
+          "attributes": {
+            "content": "Définitions \\( \\newline \\)Dans cette partie, on introduit les notions de convergence et divergence des suites, ainsi que quelques propriétés fondamentales (unicité de la limite, bornitude, etc.).",
+            "other": "",
+            "type": "Short Synthesis Overview"
+          },
+          "children": [],
+          "name": "Introduction",
+          "nodeId": "67698a9194b7717cf6e28753"
+        },
+        {
+          "attributes": {
+            "content": "On dit qu’une suite \\( (u_n) \\) converge et admet une limite finie, lorsqu’il existe un réel \\( l \\) tel que tout intervalle ouvert \\( I \\) centré en \\( l \\) contient tous les termes de la suite à partir d’un certain rang.\\( \\newline \\)On dit que \\( (u_n) \\) converge vers \\( l \\) et on note\n\\[\n\\lim_{n \\to +\\infty} u_n = l.\n\\]\\( \\newline \\)Mathématiquement, on écrira :\n\\[\n\\forall \\varepsilon > 0,\\ \\exists N \\in \\mathbb{N} \\;\\bigl|\\; n > N \\Rightarrow |u_n - l| < \\varepsilon  (\\text{ou } u_n \\in ]l - \\varepsilon,\\ l + \\varepsilon[).\\]\n",
+            "other": "",
+            "type": "Definition"
+          },
+          "children": [],
+          "name": "Convergence d’une suite : définition",
+          "nodeId": "67698a9194b7717cf6e28754"
+        },
+        {
+          "attributes": {
+            "content": "1) Un intervalle ouvert centré en \\( l \\) est de la forme \\( ]l - \\varepsilon,\\ l + \\varepsilon[ \\) avec \\( \\varepsilon > 0 \\).\\( \\newline \\) 2) Le choix de travailler avec des intervalles centrés en \\( l \\) n’est qu’une question de confort afin de travailler avec un seul paramètre \\( \\varepsilon \\). En pratique, un intervalle ouvert contenant \\( l \\) peut aussi être de la forme \\( ]l - \\varepsilon_1,\\ l + \\varepsilon_2[ \\). \\( \\newline \\) 3) Il est fondamental de travailler avec des *ouverts*. En effet, si on pouvait travailler avec des intervalles fermés, par exemple \\( \\{ [l, l] \\} = \\{ l \\} \\), alors une suite convergerait vers \\( l \\) si et seulement si elle était stationnaire, ce qui ne correspond pas à la définition usuelle de la convergence. \\( \\newline \\)  4) Montrer qu’une suite converge vers \\( l \\), c’est donc, pour un \\( \\varepsilon > 0 \\) donné, déterminer un entier \\( N \\) tel que\n\\[\n\\forall n > N,\\ |u_n - l| < \\varepsilon.\n\\]\nCela revient à résoudre des inéquations, et \\( N \\) dépend alors de \\( \\varepsilon \\).",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Remarques sur la convergence",
+          "nodeId": "67698a9194b7717cf6e28755"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-50",
+          "nodeId": "67698a9194b7717cf6e28756"
+        },
+        {
+          "attributes": {
+            "content": "Soit la suite définie pour tout \\( n \\in \\mathbb{N}^* \\) par \\( u_n = \\frac{1}{n} \\).\\( \\newline \\)1) Déterminer \\( N \\) tel que\n\\[\nn \\ge N \\ \\Rightarrow \\ u_n \\in \\left] 0,\\, 10^{-5} \\right[.\\]\n2) Montrer que \\( (u_n) \\) converge vers 0.\\( \\newline \\)\\(\\textbf{Solution :}\\)\\( \\newline \\)1) Pour tout \\( n \\in \\mathbb{N}^*\\),\n\\[\nu_n \\in ]0; 10^{-5}[ \\Longleftrightarrow 0 < \\frac{1}{n} < 10^{-5} \\Longleftrightarrow n > 10^5.\\]\nEn prenant \\( N = 10^5 + 1 \\), on a bien \\( n \\ge N \\;\\Rightarrow\\; u_n \\in ]0; 10^{-5}[ \\).\\( \\newline \\)2) Soit \\( \\varepsilon > 0 \\). On veut montrer\n\\[\n|u_n - 0| < \\varepsilon \\Longleftrightarrow \\left| \\frac{1}{n}\\right| < \\varepsilon.\n\\]\nComme \\( n > 0 \\), cela revient à\n\\[\n0 < \\frac{1}{n} < \\varepsilon \\Longleftrightarrow n > \\frac{1}{\\varepsilon}.\n\\]\nEn prenant \\( N = \\left\\lceil \\frac{1}{\\varepsilon}\\right\\rceil + 1 \\), on obtient alors\n\\[\nn \\ge N \\;\\Rightarrow\\; |u_n - 0| < \\varepsilon.\n\\]\nDonc \\( (u_n) \\) converge vers 0.",
+            "other": "",
+            "type": "Numerical Example"
+          },
+          "children": [],
+          "name": "Exemple de convergence : suite (1/n)",
+          "nodeId": "67698a9194b7717cf6e28757"
+        },
+        {
+          "attributes": {
+            "content": "1) \\( x \\mapsto \\lfloor x \\rfloor \\) (parfois noté \\( \\lceil E(x)\\rceil \\)) désigne la fonction « partie entière », c’est-à-dire le plus grand entier inférieur ou égal à \\( x \\).\n2) Dans la question 1) ci-dessus, on a travaillé spécifiquement avec \\( \\varepsilon = 10^{-5} \\).",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Remarques supplémentaires",
+          "nodeId": "67698a9194b7717cf6e28758"
+        },
+        {
+          "attributes": {
+            "content": "Si une suite converge, alors sa limite est unique.\\( \\newline \\)(Montré en détail par l’argument classique de l’\\( \\varepsilon \\)-voisinage ; si une suite converge vers deux valeurs différentes \\( l_1 \\neq l_2 \\), on obtient une contradiction en choisissant \\( \\varepsilon = \\frac{l_2 - l_1}{3} \\).)",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Unicité de la limite",
+          "nodeId": "67698a9194b7717cf6e28759"
+        },
+        {
+          "attributes": {
+            "content": "Les suites \\( ((-1)^n) \\), \\( (\\cos n) \\) et \\( (\\sin n) \\) n’admettent pas de limite. Elles ne convergent pas.",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Exemples de suites non convergentes",
+          "nodeId": "67698a9194b7717cf6e2875a"
+        },
+        {
+          "attributes": {
+            "content": "L’identité suivante est classique :\\( \\newline \\)> Propriété. Si une suite converge, alors elle est bornée.\\( \\newline \\)> Preuve. Soit \\( (u_n) \\) une suite qui converge vers un réel \\( l \\). Alors\n\\[\n\\forall \\varepsilon > 0,\\ \\exists N \\in \\mathbb{N} \\;\\bigl|\\; n > N \\Rightarrow |u_n - l| < \\varepsilon.\n\\]\nPrenons par exemple \\( \\varepsilon > 0 \\). Alors pour \\( n > N \\), on a \\( l - \\varepsilon < u_n < l + \\varepsilon \\). Posons\n\\[\nm = \\min \\bigl\\{u_0, u_1, \\dots, u_N,\\ l - \\varepsilon\\bigr\\} \\text{et} M = \\max \\bigl\\{u_0, u_1, \\dots, u_N,\\ l + \\varepsilon\\bigr\\}.\n\\]\nAlors, pour tout \\( n \\in \\mathbb{N} \\), on obtient \\( m \\leq u_n \\leq M \\). Donc \\( (u_n) \\) est bornée.\\( \\newline \\)Remarque. La réciproque est fausse : la suite \\( ((-1)^n) \\) est bornée (entre -1 et 1) mais ne converge pas.",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Une suite convergente est bornée",
+          "nodeId": "67698a9194b7717cf6e2875b"
+        },
+        {
+          "attributes": {
+            "content": "Soit \\( (u_n) \\) une suite bornée et \\( (v_n) \\) une suite qui converge vers 0. Montrer que la suite \\( (u_n \\times v_n) \\) converge vers \\( 0 \\).\\( \\newline \\)\\(\\text{Solution :}\\)\\( \\newline \\)- Puisque \\( (v_n) \\to 0 \\), on a :\n\\[\n\\forall \\varepsilon > 0,\\ \\exists N \\in \\mathbb{N} \\;\\bigl|\\; n > N \\Rightarrow |v_n| < \\varepsilon.\n\\]\n- Puisque \\( (u_n) \\) est bornée, il existe \\( M > 0 \\) tel que \\( \\forall n,\\ |u_n| \\le M \\).\n- Pour \\( n > N \\), on obtient :\n\\[\n|u_n \\, v_n| = |u_n|\\,|v_n| \\le M \\, |v_n|.\n\\]\nDonc \\( |u_n v_n| < M\\,\\varepsilon \\). En posant \\( \\varepsilon' = M \\varepsilon \\), on trouve que\n\\[\n\\forall \\varepsilon' > 0,\\ \\exists N \\;|\\; n > N \\Rightarrow |u_n v_n| < \\varepsilon'.\n\\]\nAinsi \\( (u_n v_n) \\) converge vers 0.\\( \\newline \\)Remarque : De ce résultat, on peut déduire que les suites \\( \\bigl(\\frac{1}{n}\\bigr),\\ \\bigl(\\frac{\\ln n}{n}\\bigr) \\) et \\( \\bigl(\\frac{n^2}{e^n}\\bigr) \\) convergent toutes vers 0 (en considérant la croissance respective de leurs termes).",
+            "other": "",
+            "type": "Application Exercise"
+          },
+          "children": [],
+          "name": "Exercice : produit d’une suite bornée par une suite convergeant vers 0",
+          "nodeId": "67698a9194b7717cf6e2875c"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-42",
+          "nodeId": "67698a9194b7717cf6e2875d"
+        },
+        {
+          "attributes": {
+            "content": "Si une suite ne converge pas, on dit qu’elle diverge.\\( \\newline \\)Deux grandes possibilités de divergence existent :\n- La limite n’existe pas (par exemple \\( ((-1)^n) \\)).\n- La limite existe mais elle n’est pas finie (c’est-à-dire \\( -\\infty \\) ou \\( +\\infty \\)).",
+            "other": "",
+            "type": "Definition"
+          },
+          "children": [],
+          "name": "Définition de la divergence",
+          "nodeId": "67698a9194b7717cf6e2875e"
+        },
+        {
+          "attributes": {
+            "content": "Suites divergeant vers \\( \\pm\\infty \\)\\( \\newline \\)Définition.\\( \\newline \\)- Une suite \\( (u_n) \\) diverge vers \\( +\\infty \\) et l’on dit qu’elle a pour limite \\( +\\infty \\) si\n\\[\n\\forall A \\in \\mathbb{R},\\ \\exists N \\in \\mathbb{N} \\;|\\; n > N \\;\\Rightarrow\\; u_n > A.\n\\]\nOn note alors \\( \\lim_{n \\to +\\infty} u_n = +\\infty \\).\\( \\newline \\)- De même, une suite \\( (u_n) \\) diverge vers \\( -\\infty \\) si\n\\[\n\\forall A \\in \\mathbb{R},\\ \\exists N \\in \\mathbb{N} \\;|\\; n > N \\;\\Rightarrow\\; u_n < A.\n\\]\nOn note alors \\( \\lim_{n \\to +\\infty} u_n = -\\infty \\).",
+            "other": "",
+            "type": "Definition"
+          },
+          "children": [],
+          "name": "Suites vers ±∞ : définition",
+          "nodeId": "67698a9194b7717cf6e2875f"
+        },
+        {
+          "attributes": {
+            "content": "1) Exemple 1. Montrer que \\( \\displaystyle \\lim_{n \\to +\\infty} \\sqrt{n} = +\\infty \\).\n   \n   \\(\\text{Solution :}\\) Soit \\( A \\in \\mathbb{R} \\). On étudie \\( u_n = \\sqrt{n} \\).\n   - Si \\( A < 0 \\), alors pour tout \\( n \\), \\( \\sqrt{n} \\ge 0 > A \\). En prenant \\( N=0 \\), on a \\( n > N \\Rightarrow \\sqrt{n} > A \\).\n   - Si \\( A > 0 \\), alors \\( \\sqrt{n} > A \\iff n > A^2 \\). En posant \\( N = \\lfloor A^2 \\rfloor + 1 \\), on a \\( n > N \\Rightarrow \\sqrt{n} > A \\).\\( \\newline \\)   Donc, pour tout \\( A \\), il existe \\( N \\) tel que \\( n > N \\Rightarrow u_n > A \\). Cela prouve \\( \\lim_{n \\to +\\infty} \\sqrt{n} = +\\infty \\).\\( \\newline \\)2) Exemple 2. Montrer que\n\\[\n\\lim_{n \\to +\\infty} \\frac{n^2 - n - 2}{n} = +\\infty.\n\\]\n   \\(\\text{Solution :}\\)\n   \\(\n   \\frac{n^2 - n - 2}{n} > A\\Longleftrightarrow n^2 - n - 2 > A n \\Longleftrightarrow n^2 - (A+1) n - 2 > 0.\n   \\)\n   Posons \\( P(x) = x^2 - (A+1)x - 2 \\). Son discriminant est \\( \\Delta = (A+1)^2 + 8 = A^2 + 2A + 1 + 8 = A^2 + 2A + 9 \\). On distingue différents cas selon \\( A \\). Dans tous les cas, on montre qu’il existe \\( N \\) tel que \\( n > N \\Rightarrow \\frac{n^2 - n - 2}{n} > A \\). On conclut que la suite diverge vers \\( +\\infty \\).",
+            "other": "",
+            "type": "Numerical Example"
+          },
+          "children": [],
+          "name": "Exemples : calculs de limites infinies",
+          "nodeId": "67698a9194b7717cf6e28760"
+        },
+        {
+          "attributes": {
+            "content": "Montrer que toute suite croissante et non majorée diverge vers \\( +\\infty \\). (Indication : c’est la contraposée directe du fait que toute suite croissante majorée converge.)",
+            "other": "",
+            "type": "Application Exercise"
+          },
+          "children": [],
+          "name": "Exercice : suite croissante non majorée",
+          "nodeId": "67698a9194b7717cf6e28761"
+        }
+      ],
+      "name": "I - Définitions",
+      "nodeId": "67698a9194b7717cf6e28752"
+    },
+    {
+      "attributes": {
+        "content": "",
+        "other": "",
+        "type": "Unit"
+      },
+      "children": [
+        {
+          "attributes": {
+            "content": "Nous présentons ici divers outils de calcul de limites : sommes, produits, quotients, formes de référence, etc.",
+            "other": "",
+            "type": "Short Synthesis Overview"
+          },
+          "children": [],
+          "name": "Introduction",
+          "nodeId": "67698a9194b7717cf6e28763"
+        },
+        {
+          "attributes": {
+            "content": "Soient \\( (u_n) \\) et \\( (v_n) \\) deux suites admettant une limite (finie ou non).\\( \\newline \\) Somme de limites\\( \\newline \\)Théorème. La limite de \\( (u_n + v_n) \\) s’obtient de la manière suivante : \\(\\text{Preuve (cas d’une somme finie) :}\\) si \\( u_n \\to l \\) et \\( v_n \\to l' \\) avec \\( l,l' \\in \\mathbb{R} \\), alors \\( u_n + v_n \\to l + l' \\).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [
+            {
+              "attributes": {
+                "alt": "Graphe de la suite (u_n)",
+                "caption": "Somme de limites",
+                "content": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_somme_lim.png",
+                "type": "Figure",
+                "url": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_somme_lim.png",
+                "width": 250
+              },
+              "children": [],
+              "name": "Figure: Graphe de la suite",
+              "nodeId": "67698a9194b7717cf6e28765"
+            }
+          ],
+          "name": "Opérations sur les limites : somme",
+          "nodeId": "67698a9194b7717cf6e28764"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-44",
+          "nodeId": "67698a9194b7717cf6e28766"
+        },
+        {
+          "attributes": {
+            "content": "Produit de limites\\( \\newline \\)Théorème. La limite de \\( (u_n \\times v_n) \\) s’obtient de la manière suivante. \\( \\newline \\)(Ici la forme indéterminée type est \\( 0 \\times \\infty \\).)",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [
+            {
+              "attributes": {
+                "alt": "Produit de limites",
+                "caption": "Produit de limites",
+                "content": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_prod_limite.png",
+                "type": "Figure",
+                "url": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_prod_limite.png",
+                "width": 250
+              },
+              "children": [],
+              "name": "Produit de limites",
+              "nodeId": "67698a9194b7717cf6e28768"
+            }
+          ],
+          "name": "Opérations sur les limites : produit",
+          "nodeId": "67698a9194b7717cf6e28767"
+        },
+        {
+          "attributes": {
+            "content": "Quotient de limites\\( \\newline \\)Théorème. La limite de \\( \\bigl(\\frac{u_n}{v_n}\\bigr) \\) s’obtient de la manière suivante :\\( \\newline \\)Règles rapides (à manipuler avec prudence).\n\\(\n\\frac{1}{0} = \\infty,  \\frac{1}{\\infty} = 0,  \\frac{\\infty}{0} = \\infty \\times 0 = 0,\n\\)\nmais ces écritures sont seulement mnémotechniques et pas des démonstrations.",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [
+            {
+              "attributes": {
+                "alt": "Quotient de limites",
+                "caption": "Quotient de limites",
+                "content": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_quotient_lim.png",
+                "type": "Figure",
+                "url": "https://excellence-bucket.s3.us-east-1.amazonaws.com/images/tableau_quotient_lim.png",
+                "width": 250
+              },
+              "children": [],
+              "name": "Quotient de limites",
+              "nodeId": "67698a9194b7717cf6e2876a"
+            }
+          ],
+          "name": "Opérations sur les limites : quotient",
+          "nodeId": "67698a9194b7717cf6e28769"
+        },
+        {
+          "attributes": {
+            "content": "Quelques limites de référence\\( \\newline \\)\\(\n\\lim_{n \\to +\\infty} \\frac{1}{n} = 0, \\newline \\forall k \\in \\mathbb{N}^*,\\ \\lim_{n \\to +\\infty} \\frac{1}{n^k} = 0, \\newline \\lim_{n \\to +\\infty} n = +\\infty, \\newline \\forall k \\in \\mathbb{N}^*,\\ \\lim_{n \\to +\\infty} n^k = +\\infty, \\newline \\) \\newline \\( \\newline \\lim_{n \\to +\\infty} \\sqrt{n} = +\\infty, \\newline \\lim_{n \\to +\\infty} e^n = +\\infty. \\newline \\)\\( \\newline \\) > Preuve: \\( \\newline \\) - \\( \\lim_{n \\to +\\infty} n = +\\infty \\). \\( \\newline \\) Par produit, \\( \\lim_{n \\to +\\infty} n^2 = +\\infty \\), etc. \\( \\newline \\) - Par quotient, \\( \\lim_{n \\to +\\infty} \\frac{1}{n} = 0 \\). \\( \\newline \\) - On a déjà vu \\( \\lim_{n \\to +\\infty} \\sqrt{n} = +\\infty \\).\n> - \\( \\lim_{n \\to +\\infty} e^n = +\\infty \\) (admis).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Limites de référence",
+          "nodeId": "67698a9194b7717cf6e2876b"
+        },
+        {
+          "attributes": {
+            "content": "- Exemple. Calculer \\( \\lim_{n \\to +\\infty} \\frac{1}{n^2 + n - 2} \\). Par somme, \\( n^2 + n - 2 \\to +\\infty \\), donc la fraction va vers 0.\n- Exemple. Calculer \\( \\lim_{n \\to +\\infty} (n\\sqrt{n} + n^3) \\). On a \\( n^{3/2} \\to +\\infty \\) et \\( n^3 \\to +\\infty \\). Par somme, le tout \\( \\to +\\infty \\).",
+            "other": "",
+            "type": "Numerical Example"
+          },
+          "children": [],
+          "name": "Exemples de limites de référence",
+          "nodeId": "67698a9194b7717cf6e2876c"
+        },
+        {
+          "attributes": {
+            "content": " Cas de racines et exponentielles (admis)\\( \\newline \\)Propriété. Soit \\( (u_n) \\) une suite à termes positifs.\n- Si \\( u_n \\to +\\infty \\), alors \\( \\sqrt{u_n} \\to +\\infty \\).\n- Si \\( u_n \\to l \\in \\mathbb{R}^+ \\), alors \\( \\sqrt{u_n} \\to \\sqrt{l} \\).\\( \\newline \\)Propriété. Soit \\( (u_n) \\) une suite quelconque.\n- Si \\( u_n \\to +\\infty \\), alors \\( e^{u_n} \\to +\\infty \\).\n- Si \\( u_n \\to l \\in \\mathbb{R} \\), alors \\( e^{u_n} \\to e^l \\).\n- Si \\( u_n \\to -\\infty \\), alors \\( e^{u_n} \\to 0 \\).",
+            "other": "",
+            "type": "Definition"
+          },
+          "children": [],
+          "name": "Racines et exponentielles",
+          "nodeId": "67698a9194b7717cf6e2876d"
+        },
+        {
+          "attributes": {
+            "content": " Technique de factorisation\\( \\newline \\)Lorsqu’une limite semble donner une forme indéterminée, on peut tenter de factoriser.\\( \\newline \\)- Exemple 1. \\( \\lim_{n \\to +\\infty} (n^2 - n + 2) \\). On pourrait dire que c’est \\( (+\\infty) - (+\\infty) \\), forme indéterminée. Mais en factorisant \\( n^2 - n + 2 = n(n-1) + 2 \\), il est clair que \\( n(n-1) \\to +\\infty \\). Donc la limite est \\( +\\infty \\).\n- Exemple 2. \\( \\lim_{n \\to +\\infty} (n - \\sqrt{n} + 2) \\). On peut écrire \\( n - \\sqrt{n} + 2 = \\sqrt{n}(\\sqrt{n}-1) + 2 \\). Les termes \\( \\sqrt{n} \\) et \\( (\\sqrt{n}-1) \\) tendent vers \\( +\\infty \\), donc la somme va vers \\( +\\infty \\).\n- Exemple 3. \\( \\lim_{n \\to +\\infty} \\frac{3n^2 - 2n + 1}{n^3 + 3n^2 - n + 1} \\). Factoriser par \\( n^3 \\) pour lever l’indétermination : on obtient \\( 0 \\).\n- Exemple 4. \\( \\lim_{n \\to +\\infty} (\\sqrt{2n+1} - \\sqrt{3n-2}) \\). Factoriser par \\( \\sqrt{n} \\) : le résultat tend vers \\( -\\infty \\).",
+            "other": "",
+            "type": "Concept Study Technique"
+          },
+          "children": [],
+          "name": "Technique de factorisation",
+          "nodeId": "67698a9194b7717cf6e2876e"
+        },
+        {
+          "attributes": {
+            "content": "1) Lorsqu’on transforme l’expression de \\( u_n \\), il n’est pas indispensable de connaître l’ensemble de définition pour tous les \\( n \\). Il suffit de dire «pour \\( n \\) suffisamment grand».\\(\\newline\\)2) Pour les fonctions rationnelles, factoriser au numérateur et au dénominateur par le monôme de plus haut degré enlèvera toujours la forme indéterminée.\\newline\n3) Dans certains cas (racines, exponentielles), on combine factorisation et/ou conjugaison.",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Remarques sur la factorisation",
+          "nodeId": "67698a9194b7717cf6e2876f"
+        },
+        {
+          "attributes": {
+            "content": " Technique du conjugé\\( \\newline \\)- Exemple. Calculer \\( \\lim_{n \\to +\\infty} (\\sqrt{2n+1} - \\sqrt{2n-3}) \\).\n  \n  On peut multiplier par le conjugué :\n  \\[\n  \\sqrt{2n+1} - \\sqrt{2n-3} = \\frac{(\\sqrt{2n+1} - \\sqrt{2n-3})(\\sqrt{2n+1} + \\sqrt{2n-3})}{\\sqrt{2n+1} + \\sqrt{2n-3}} = \\newline \\frac{(2n+1) - (2n-3)}{\\sqrt{2n+1} + \\sqrt{2n-3}} = \\frac{4}{\\sqrt{2n+1} + \\sqrt{2n-3}}.\n  \\]\n  Comme \\( \\sqrt{2n+1} + \\sqrt{2n-3} \\to +\\infty \\), le quotient tend vers 0.\\( \\newline \\)Remarque. On peut parfois devoir combiner conjugaison et factorisation.",
+            "other": "",
+            "type": "Concept Study Technique"
+          },
+          "children": [],
+          "name": "Technique du conjugé",
+          "nodeId": "67698a9194b7717cf6e28770"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-45",
+          "nodeId": "67698a9194b7717cf6e28771"
+        },
+        {
+          "attributes": {
+            "content": "Calculer \\( \\lim_{n \\to +\\infty} (\\sqrt{2n^2 - 3n + 1} - \\sqrt{2n^2 - n + 2}) \\). (Suggestion : factoriser \\( \\sqrt{n^2} \\) et faire une conjugaison.)",
+            "other": "",
+            "type": "Application Exercise"
+          },
+          "children": [],
+          "name": "Exercice sur la conjugaison",
+          "nodeId": "67698a9194b7717cf6e28772"
+        }
+      ],
+      "name": "II - Calcul de limites",
+      "nodeId": "67698a9194b7717cf6e28762"
+    },
+    {
+      "attributes": {
+        "content": "",
+        "other": "",
+        "type": "Unit"
+      },
+      "children": [
+        {
+          "attributes": {
+            "content": "Ici, nous étudions des théorèmes de comparaison et d'encadrement (gendarmes), qui permettent de conclure sur la limite d'une suite en la comparant ou l'encadrant avec d'autres suites déjà connues ou plus faciles à étudier.",
+            "other": "",
+            "type": "Short Synthesis Overview"
+          },
+          "children": [],
+          "name": "Introduction",
+          "nodeId": "67698a9194b7717cf6e28774"
+        },
+        {
+          "attributes": {
+            "content": "Théorème de comparaison\\( \\newline \\)Soient \\( (u_n) \\) et \\( (v_n) \\) deux suites telles qu’à partir d’un certain rang, \\( u_n \\leq v_n \\).\\( \\newline \\)1) Si \\( \\lim_{n \\to +\\infty} v_n = +\\infty \\), alors \\( \\lim_{n \\to +\\infty} u_n = +\\infty \\).\n2) Si \\( \\lim_{n \\to +\\infty} v_n = -\\infty \\), alors \\( \\lim_{n \\to +\\infty} u_n = -\\infty \\).\\( \\newline \\)Preuve (cas i). Soit \\( A \\in \\mathbb{R} \\). Puisque \\( v_n \\to +\\infty \\), il existe \\( N_1 \\) tel que \\( n > N_1 \\Rightarrow v_n > A \\). Il existe \\( N_2 \\) tel que \\( n > N_2 \\Rightarrow u_n \\le v_n \\). En posant \\( N = \\max\\{N_1, N_2\\} \\), pour \\( n > N \\) on a \\( u_n > A \\). Donc \\( u_n \\to +\\infty \\).\\( \\newline \\)Exemple. Soit \\( u_n = n + \\cos n \\). On cherche \\( \\lim_{n \\to +\\infty} u_n \\). Bien que \\( \\cos n \\) ne converge pas, on a\n\\(\nn - 1 < n + \\cos n \\le n + 1.\\)\nPuisque \\( \\lim_{n \\to +\\infty} (n - 1) = +\\infty \\), par comparaison, on conclut \\( u_n \\to +\\infty \\).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Théorème de comparaison",
+          "nodeId": "67698a9194b7717cf6e28775"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-42",
+          "nodeId": "67698a9194b7717cf6e28776"
+        },
+        {
+          "attributes": {
+            "content": "Théorème des gendarmes (ou d’encadrement)\\( \\newline \\)Soient \\( (u_n), (v_n), (w_n) \\) trois suites telles qu’à partir d’un certain rang \\( u_n \\le v_n \\le w_n \\). Si \\( \\lim_{n \\to +\\infty} u_n = \\lim_{n \\to +\\infty} w_n = l \\in \\mathbb{R} \\), alors \\( \\lim_{n \\to +\\infty} v_n = l \\).\\( \\newline \\)Preuve. Soit \\( \\varepsilon > 0 \\). Puisque \\( u_n \\to l \\), il existe \\( N_1 \\) tel que \\( n \\ge N_1 \\Rightarrow |u_n - l| < \\varepsilon \\). De même, il existe \\( N_2 \\) pour \\( w_n \\). Enfin, l’hypothèse \\( u_n \\le v_n \\le w_n \\) est vraie à partir d’un rang \\( N_3 \\). En posant \\( N = \\max(N_1,N_2,N_3) \\), on obtient \\( l - \\varepsilon < u_n \\le v_n \\le w_n < l + \\varepsilon \\). Donc \\( v_n \\to l \\).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Théorème des gendarmes (encadrement)",
+          "nodeId": "67698a9194b7717cf6e28777"
+        },
+        {
+          "attributes": {
+            "content": "Calculer \\( \\lim_{n \\to +\\infty} \\frac{n - \\cos n}{n^2 - n - 1} \\).\\( \\newline \\)On écrit :\n\\(\n\\frac{n - \\cos n}{n^2 - n - 1} = \\frac{n\\bigl(1 - \\frac{\\cos n}{n}\\bigr)}{n^2\\bigl(1 - \\frac{1}{n} - \\frac{1}{n^2}\\bigr)} = \\frac{1 - \\frac{\\cos n}{n}}{n \\Bigl(1 - \\frac{1}{n} - \\frac{1}{n^2}\\Bigr)}.\n\\)\nComme \\( -1 \\le \\cos n \\le 1 \\), on a \\( -\\frac{1}{n} \\le \\frac{\\cos n}{n} \\le \\frac{1}{n} \\), et \\( \\frac{\\cos n}{n} \\to 0 \\) (théorème des gendarmes). Donc \\( 1 - \\frac{\\cos n}{n} \\to 1 \\). Par ailleurs, \\( n(1 - \\frac{1}{n} - \\frac{1}{n^2}) \\to +\\infty \\). La fraction complète tend donc vers 0.",
+            "other": "",
+            "type": "Numerical Example"
+          },
+          "children": [],
+          "name": "Exemple : gendarmes",
+          "nodeId": "67698a9194b7717cf6e28778"
+        }
+      ],
+      "name": "III - Limites et comparaison",
+      "nodeId": "67698a9194b7717cf6e28773"
+    },
+    {
+      "attributes": {
+        "content": "",
+        "other": "",
+        "type": "Unit"
+      },
+      "children": [
+        {
+          "attributes": {
+            "content": "Nous étudions ici la convergence (ou divergence) des suites monotones (croissantes, décroissantes).",
+            "other": "",
+            "type": "Short Synthesis Overview"
+          },
+          "children": [],
+          "name": "Introduction",
+          "nodeId": "67698a9194b7717cf6e2877a"
+        },
+        {
+          "attributes": {
+            "content": "Théorème.\n- Toute suite croissante et majorée est convergente.\n- Toute suite décroissante et minorée est convergente.\\( \\newline \\)Preuve (cas croissant et majoré). Soit \\( (u_n) \\) une suite croissante et majorée. On admet l’existence d’un \\( \\sup \\) (plus petit majorant) \\( M \\). Pour tout \\( \\varepsilon > 0 \\), \\( M - \\varepsilon \\) n’est pas un majorant, donc il existe un \\( N \\) tel que \\( u_N > M - \\varepsilon \\). La suite étant croissante, \\( u_n \\ge u_N > M - \\varepsilon \\) pour \\( n \\ge N \\). En même temps, \\( u_n \\le M \\). Ainsi \\( M - \\varepsilon < u_n \\le M \\), d’où \\( |u_n - M| < \\varepsilon \\). Donc \\( u_n \\to M \\).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Suite croissante et majorée",
+          "nodeId": "67698a9194b7717cf6e2877b"
+        },
+        {
+          "attributes": {
+            "content": "1) On sait que \\( u_n \\to M \\) *sans savoir calculer* \\( M \\).\n2) Le plus petit majorant \\( M \\) (\\( \\sup \\)) est alors la limite.\n3) Autre conséquence : si \\( (u_n) \\) est croissante et majorée par un réel \\( A \\), alors la limite vérifie \\( \\ell \\le A \\).",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Remarques sur le théorème",
+          "nodeId": "67698a9194b7717cf6e2877c"
+        },
+        {
+          "attributes": {
+            "content": "------",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-please",
+          "nodeId": "67698a9194b7717cf6e2877d"
+        },
+        {
+          "attributes": {
+            "content": "Rappel :\n- Toute suite croissante non majorée diverge vers \\( +\\infty \\).\n- Toute suite décroissante non minorée diverge vers \\( -\\infty \\).",
+            "other": "",
+            "type": "Note/Remark"
+          },
+          "children": [],
+          "name": "Rappel : croissante non majorée",
+          "nodeId": "67698a9194b7717cf6e2877e"
+        },
+        {
+          "attributes": {
+            "content": "Théorème.\n- Si \\( (u_n) \\) est croissante et converge vers \\( \\ell \\), alors \\( \\forall n,\\ u_n \\le \\ell \\).\n- Si \\( (u_n) \\) est décroissante et converge vers \\( \\ell \\), alors \\( \\forall n,\\ u_n \\ge \\ell \\).\\( \\newline \\)Preuve (cas croissant). Supposons qu’il existe \\( n_0 \\) tel que \\( u_{n_0} > \\ell \\). La suite étant croissante, \\( u_n > u_{n_0} > \\ell \\) pour tout \\( n > n_0 \\). Ceci contredit \\( u_n \\to \\ell \\).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Suite monotone convergente et position de ses termes",
+          "nodeId": "67698a9194b7717cf6e2877f"
+        },
+        {
+          "attributes": {
+            "content": "\\(\\textbf{Inégalité de Bernoulli.}\\)\nSoit \\( x > -1 \\). Pour tout entier \\( n \\ge 0 \\), \\(\n(1 + x)^n \\ge 1 + n x.\n\\)\\( \\newline \\)(Preuve par récurrence classique.)\\( \\newline \\)Théorème (suite géométrique). Soit \\( q \\in \\mathbb{R} \\). La suite \\( (q^n) \\) converge si et seulement si \\( q \\in ]-1,1] \\). Plus précisément :\n- Si \\( q > 1 \\), alors \\( q^n \\to +\\infty \\).\n- Si \\( |q| < 1 \\), alors \\( q^n \\to 0 \\).\n- Si \\( q = 1 \\), alors \\( q^n = 1 \\) pour tout \\( n \\) (suite constante).\n- Si \\( q \\le -1 \\), alors \\( (q^n) \\) n’est pas convergente (oscillations, etc.).\\( \\newline \\)Preuve (extraits).\n- Si \\( q>1 \\), poser \\( x = q-1>0 \\). Par Bernoulli, \\( (1+x)^n \\ge 1 + nx \\). Donc \\( q^n \\to +\\infty \\).\n- Si \\( -1<q<1 \\), alors \\( |q|<1 \\) donne \\( |q|^n \\to 0 \\). Par gendarmes, \\( q^n \\to 0 \\).\n- Si \\( q=1 \\), c’est la suite constante 1.\n- Si \\( q \\le -1 \\), la suite n’est pas convergente (ex. \\( q=-1 \\) donne \\( (-1)^n \\)).",
+            "other": "",
+            "type": "Theoreme"
+          },
+          "children": [],
+          "name": "Limite d’une suite géométrique",
+          "nodeId": "67698a9194b7717cf6e28780"
+        },
+        {
+          "attributes": {
+            "content": "PageBreak",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreak-47",
+          "nodeId": "67698a9194b7717cf6e28781"
+        },
+        {
+          "attributes": {
+            "content": "- Exemples. \\( 2>1 \\implies 2^n \\to +\\infty \\). \\( -\\frac{1}{3} \\in ]-1,1[ \\implies \\left(-\\frac{1}{3}\\right)^n \\to 0 \\).",
+            "other": "",
+            "type": "Numerical Example"
+          },
+          "children": [],
+          "name": "Exemples de suites géométriques",
+          "nodeId": "67698a9194b7717cf6e28782"
+        },
+        {
+          "attributes": {
+            "content": "Calculer\n\\(\n\\lim_{n \\to +\\infty} \\frac{5^{n+1} - 3 \\times 2^{n+2}}{4 \\times 5^{n+1} + 5 \\times 2^{n+1}}.\n\\)\\( \\newline \\)\\(\\text{Correction :}\\)\\( \\newline \\)\\( 2 > 1 \\Rightarrow 2^n \\to +\\infty,  -\\frac{1}{3} \\in ]-1;1[ \\Rightarrow \\bigl(-\\frac{1}{3}\\bigr)^n \\to 0. \\)\\( \\newline \\)\\(\n\\forall n \\in \\mathbb{N}, \\frac{5^{n+1} - 3 \\times 2^{n+2}}{4 \\times 5^n + 5 \\times 2^{n+1}} = \\frac{5^{n+1}\\bigl(5 - 3\\,\\bigl(\\frac{2}{5}\\bigr)^{n+2}\\bigr)}{5^{n+1}\\bigl(\\frac{4}{5^2} + 5\\,\\bigl(\\frac{2}{5}\\bigr)^{n+1}\\bigr)} = 5\\,\\frac{5 - 3\\,\\bigl(\\frac{2}{5}\\bigr)^{n+2}}{\\frac{4}{25} + 5\\,\\bigl(\\frac{2}{5}\\bigr)^{n+1}}.\\)\\( \\newline \\)Comme \\( \\frac{2}{5} \\in ]-1;1[ \\), on a \\( \\left(\\frac{2}{5}\\right)^{n+2} \\to 0 \\) et \\( \\left(\\frac{2}{5}\\right)^{n+1} \\to 0 \\). Donc\n\\(\n\\lim_{n \\to +\\infty} \\bigl(5 - 3\\,(\\tfrac{2}{5})^{n+2}\\bigr) = 5,\n\\lim_{n \\to +\\infty} \\bigl(\\tfrac{4}{25} + 5\\,(\\tfrac{2}{5})^{n+1}\\bigr) = \\tfrac{4}{25}.\n\\)\nPar quotient, \\( \\lim_{n \\to +\\infty} \\frac{5 - 3\\,(\\frac{2}{5})^{n+2}}{\\frac{4}{25} + 5\\,(\\frac{2}{5})^{n+1}} = \\frac{5}{\\frac{4}{25}} = \\frac{125}{4} \\). Par produit avec 5, la limite de la grande fraction est \\( \\frac{625}{4} \\).",
+            "other": "",
+            "type": "Study Technique (Solved Example)"
+          },
+          "children": [],
+          "name": "Exercice : calcul de limite géométrique",
+          "nodeId": "67698a9194b7717cf6e28783"
+        },
+        {
+          "attributes": {
+            "content": "Bravo, vous avez fini le cours sur les limites de suites ! ",
+            "other": "",
+            "type": "PageBreak"
+          },
+          "children": [],
+          "name": "PageBreakConclusion",
+          "nodeId": "67698a9194b7717cf6e28784"
+        },
+        {
+          "attributes": {
+            "content": "Bravo, vous avez fini le cours sur les limites de suites ! Ce n'était pas simple, mais voilà un schéma récapitulatif: \\(\\newline\\)\\( \\textbf{Inserer super schéma}\\) ",
+            "other": "",
+            "type": "Conclusion"
+          },
+          "children": [],
+          "name": "Conclusion",
+          "nodeId": "67698a9194b7717cf6e28785"
+        }
+      ],
+      "name": "III - Convergence des suites monotones",
+      "nodeId": "67698a9194b7717cf6e28779"
+    }
+  ],
+  "name": "suites",
+  "nodeId": "67698a9194b7717cf6e28751"
+}
